@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased font-sans;
+  background-image:
+    radial-gradient(at 12% 0%, rgba(157, 136, 254, 0.18) 0px, transparent 50%),
+    radial-gradient(at 92% 8%, rgba(210, 171, 246, 0.14) 0px, transparent 45%);
+  background-attachment: fixed;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: theme('colors.slate.200');
+  outline: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: theme('colors.brand.DEFAULT');
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.2);
+  cursor: pointer;
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: theme('colors.brand.DEFAULT');
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.2);
+  cursor: pointer;
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.slate.300') transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: theme('colors.slate.300'); border-radius: 9999px; }
+}
