@@ -22,10 +22,10 @@ export function OptionsPanel({ options, onChange, disabled }: OptionsPanelProps)
         <h3 className="text-base font-semibold text-slate-900">Opties</h3>
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-6">
         <div>
           <label className="mb-2 block text-sm font-medium text-slate-700">Doelformaat</label>
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-9">
             {TARGET_FORMATS.map((f) => {
               const active = options.targetFormat === f.id;
               return (
@@ -72,7 +72,7 @@ export function OptionsPanel({ options, onChange, disabled }: OptionsPanelProps)
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid gap-4 md:grid-cols-[1fr,1fr,auto] md:items-end">
           <div>
             <label htmlFor="maxW" className="mb-2 block text-sm font-medium text-slate-700">
               Max breedte (px)
@@ -101,15 +101,16 @@ export function OptionsPanel({ options, onChange, disabled }: OptionsPanelProps)
               onChange={(e) => update({ maxHeight: e.target.value === '' ? undefined : Math.max(0, Number(e.target.value)) })}
             />
           </div>
+          <div className="md:pb-2.5">
+            <Switch
+              id="aspect"
+              checked={options.keepAspectRatio}
+              onChange={(checked) => update({ keepAspectRatio: checked })}
+              label="Behoud aspect ratio"
+              disabled={disabled}
+            />
+          </div>
         </div>
-
-        <Switch
-          id="aspect"
-          checked={options.keepAspectRatio}
-          onChange={(checked) => update({ keepAspectRatio: checked })}
-          label="Behoud aspect ratio"
-          disabled={disabled}
-        />
 
         <div>
           <label htmlFor="rename" className="mb-2 block text-sm font-medium text-slate-700">

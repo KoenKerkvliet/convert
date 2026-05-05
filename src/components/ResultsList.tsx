@@ -36,16 +36,10 @@ export function ResultsList({ results, errors, onReset }: ResultsListProps) {
             Resultaten ({results.length})
           </h3>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={onReset}>
-            <RotateCcw className="h-4 w-4" />
-            Opnieuw beginnen
-          </Button>
-          <Button onClick={handleZip} disabled={!results.length || zipping}>
-            {zipping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Archive className="h-4 w-4" />}
-            Download alles als ZIP
-          </Button>
-        </div>
+        <Button variant="outline" onClick={onReset}>
+          <RotateCcw className="h-4 w-4" />
+          Opnieuw beginnen
+        </Button>
       </div>
 
       {errors.length > 0 && (
@@ -66,6 +60,15 @@ export function ResultsList({ results, errors, onReset }: ResultsListProps) {
           <ResultCard key={img.previewUrl} image={img} />
         ))}
       </div>
+
+      {results.length > 0 && (
+        <div className="flex justify-center pt-2">
+          <Button size="lg" onClick={handleZip} disabled={zipping} className="min-w-[260px]">
+            {zipping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Archive className="h-4 w-4" />}
+            Download alles als ZIP
+          </Button>
+        </div>
+      )}
     </section>
   );
 }

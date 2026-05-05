@@ -32,7 +32,6 @@ export default function App() {
   const [progress, setProgress] = useState({ done: 0, total: 0, currentName: '' });
   const [results, setResults] = useState<ConvertedImage[]>([]);
   const [errors, setErrors] = useState<ConversionError[]>([]);
-  const [sessionCount, setSessionCount] = useState(0);
 
   // Revoke preview URLs on unmount or when results are cleared
   useEffect(() => {
@@ -93,7 +92,6 @@ export default function App() {
 
     setResults(newResults);
     setErrors(newErrors);
-    setSessionCount((c) => c + newResults.length);
     setProgress({ done: total, total, currentName: '' });
     setIsConverting(false);
   };
@@ -123,40 +121,30 @@ export default function App() {
           </p>
         </section>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr,360px]">
-          <div className="space-y-4">
-            <UploadArea onFiles={addFiles} hasFiles={queue.length > 0} />
-            <FileQueue items={queue} onRemove={removeQueueItem} onClear={clearQueue} />
-          </div>
-          <div className="space-y-4">
-            <OptionsPanel options={options} onChange={setOptions} disabled={isConverting} />
-            <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
-              <p className="mb-3 text-sm text-slate-600">{queueLabel}</p>
-              <Button size="lg" className="w-full" onClick={startConversion} disabled={!canConvert}>
-                {isConverting ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Wand2 className="h-4 w-4" />
-                )}
-                {isConverting ? 'Bezig…' : 'Convert'}
-              </Button>
-            </div>
-          </div>
-        </div>
+        <div className="space-y-6">
+          <UploadArea onFiles={addFiles} hasFiles={queue.length > 0} />
+          <FileQueue items={queue} onRemove={removeQueueItem} onClear={clearQueue} />
 
-        {showProgress && (
-          <div className="mt-6">
+          <OptionsPanel options={options} onChange={setOptions} disabled={isConverting} />
+
+          <div className="flex flex-col items-stretch gap-3 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-slate-600">{queueLabel}</p>
+            <Button size="lg" onClick={startConversion} disabled={!canConvert} className="sm:min-w-[200px]">
+              {isConverting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
+              {isConverting ? 'Bezig…' : 'Convert'}
+            </Button>
+          </div>
+
+          {showProgress && (
             <ConversionProgress total={progress.total} done={progress.done} currentName={progress.currentName} />
-          </div>
-        )}
+          )}
 
-        {(results.length > 0 || errors.length > 0) && !isConverting && (
-          <div className="mt-10">
+          {(results.length > 0 || errors.length > 0) && !isConverting && (
             <ResultsList results={results} errors={errors} onReset={handleReset} />
-          </div>
-        )}
+          )}
+        </div>
       </main>
-      <Footer sessionCount={sessionCount} />
+      <Footer />
     </div>
   );
 }
